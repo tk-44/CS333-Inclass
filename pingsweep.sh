@@ -3,27 +3,31 @@
 
 base="onyxnode"
 
+cmd_pingSweep() {
+	for q in {1..200}
+	do
+		curr="$base$q"
+		ping -c 1 $curr >> ping.log
+	done
+}
+
+cmd_help() {
+	echo "-p to pingsweep"
+}
+
 main(){
-	if [ $# -eq 0 ]; then
-		cmd_up
-		exit 0
-	fi
+	for cmd in "$@"; do
+		case "$cmd" in
+			-h) cmd_help ;;
+			-p) cmd_pingSweep ;;
+			*)
+				echo "Unknown command: $cmd"
+				cmd_help
+				exit 1
+				;;
+		esac
+	done
+}
 
-for cmd in "$@"; do
-	case "$cmd" in
-	help|h) cmd_help;;
-	*)
-	echo "Unknown command: $cmd"
-	cmd_help
-	exit 1
-	;;
-   esac
-done
-	}
-
-for q in {1..200}
-do
-	curr="$base$q"
-	ping -c 1 $curr >> ping.log
-done
+main "$@"
 
