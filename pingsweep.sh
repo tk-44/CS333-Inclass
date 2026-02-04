@@ -15,6 +15,10 @@ cmd_help() {
 	echo "-p to pingsweep"
 }
 
+usage() {
+	echo "sh pingsweep <-h/-p>"
+}
+
 main(){
 	for cmd in "$@"; do
 		case "$cmd" in
@@ -29,5 +33,11 @@ main(){
 	done
 }
 
+	if [ $# -lt 1 ]; then
+		echo "Missing argument"
+		usage
+		exit 1
+	else
 main "$@"
+	fi
 
