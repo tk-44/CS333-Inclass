@@ -6,7 +6,7 @@ base="onyxnode"
 cmd_pingSweep() {
 	for q in {1..200}
 	do
-		curr="$base$q"
+		printf -v curr "%s%02d" "$base" "$q"
 		ping -c 1 $curr >> ping.log
 	done
 }
