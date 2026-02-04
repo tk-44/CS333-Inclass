@@ -8,7 +8,7 @@ cmd_pingSweep() {
 	local total=0
 	for q in {1..200}
 	do
-		curr="$base$q"
+		printf -v curr "%s%02d" "$base" "$q"
 		ping -c 1 -w 1 $curr &> /dev/null
 	  if [ $? -eq 0 ]; then 
 		echo "Node ${curr} is reachable."
@@ -22,6 +22,10 @@ cmd_pingSweep() {
 
 cmd_help() {
 	echo "-p to pingsweep"
+}
+
+usage() {
+	echo "sh pingsweep <-h/-p>"
 }
 
 main(){
@@ -38,5 +42,11 @@ main(){
 	done
 }
 
-main "$@"
+	if [ $# -lt 1 ]; then
+		echo "Missing argument"
+		usage
+		exit 1
+	else
+		main "$@"
+	fi
 
